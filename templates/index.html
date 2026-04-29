@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SensiCalc</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>🖱️ SensiCalc</h1>
+    <p class="subtitle">Converta sua sensibilidade entre jogos, DPIs e mouses</p>
+
+    <div class="card">
+
+      <!-- JOGOS -->
+      <div class="section">
+        <h2>Jogos</h2>
+        <div class="row">
+          <div class="field">
+            <label for="from_game">Jogo de origem</label>
+            <select id="from_game">
+              {% for game in games %}
+              <option value="{{ game.id }}">{{ game.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="field">
+            <label for="to_game">Jogo de destino</label>
+            <select id="to_game">
+              {% for game in games %}
+              <option value="{{ game.id }}">{{ game.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SENSIBILIDADE -->
+      <div class="section">
+        <h2>Sensibilidade</h2>
+        <div class="field">
+          <label for="sensitivity">Sensibilidade atual</label>
+          <input type="number" id="sensitivity" placeholder="ex: 1.8" step="0.01" min="0" />
+        </div>
+      </div>
+
+      <!-- DPI (opcional) -->
+      <div class="section">
+        <h2>DPI <span class="optional">(opcional)</span></h2>
+        <div class="row">
+          <div class="field">
+            <label for="from_dpi">DPI atual</label>
+            <input type="number" id="from_dpi" placeholder="ex: 800" min="0" />
+          </div>
+          <div class="arrow">→</div>
+          <div class="field">
+            <label for="to_dpi">DPI novo</label>
+            <input type="number" id="to_dpi" placeholder="ex: 1600" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- PESO (opcional) -->
+      <div class="section">
+        <h2>Peso do mouse <span class="optional">(opcional, em gramas)</span></h2>
+        <div class="row">
+          <div class="field">
+            <label for="from_weight">Peso atual</label>
+            <input type="number" id="from_weight" placeholder="ex: 95" min="0" />
+          </div>
+          <div class="arrow">→</div>
+          <div class="field">
+            <label for="to_weight">Peso novo</label>
+            <input type="number" id="to_weight" placeholder="ex: 68" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-convert">Calcular sensibilidade</button>
+
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="result" id="result" style="display:none;">
+      <h2>Resultado</h2>
+      <div class="result-value" id="result-value"></div>
+      <div class="result-details" id="result-details"></div>
+    </div>
+
+    <!-- ERRO -->
+    <div class="error" id="error" style="display:none;"></div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
