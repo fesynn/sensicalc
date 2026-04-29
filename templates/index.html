@@ -1,36 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SensiCalc</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-  <div class="container">
-    <h1>🖱️ SensiCalc</h1>
-    <p class="subtitle">Converta sua sensibilidade entre jogos, DPIs e mouses</p>
+  <div class="app">
 
-    <div class="card">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">SENSICALC</span>
+      </div>
+      <p class="logo-tagline">POWERED BY LOGIC, DRIVEN BY PRECISION.</p>
+
+      <div class="avatar-block">
+        <div class="avatar">👾</div>
+        <p class="welcome">WELCOME, PLAYER</p>
+        <p class="ready">READY TO CALCULATE</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <p class="nav-label">MAIN MENU</p>
+        <a class="nav-item active" href="#">⊞ CONVERTER</a>
+        <a class="nav-item" href="#">◎ ABOUT</a>
+      </nav>
+
+      <div class="system-status">
+        <p class="nav-label">SYSTEM STATUS</p>
+        <span class="status-dot"></span> ONLINE
+      </div>
+
+      <p class="version">SENSICALC v1.0.0</p>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="main-header">
+        <h2>SENSITIVITY CONVERTER</h2>
+        <span class="header-dot"></span>
+      </div>
 
       <!-- JOGOS -->
-      <div class="section">
-        <h2>Jogos</h2>
+      <div class="section-block">
+        <p class="section-label">// GAME</p>
         <div class="row">
           <div class="field">
-            <label for="from_game">Jogo de origem</label>
+            <label>FROM</label>
             <select id="from_game">
               {% for game in games %}
               <option value="{{ game.id }}">{{ game.name }}</option>
               {% endfor %}
             </select>
           </div>
-
-          <div class="arrow">→</div>
-
+          <div class="arrow">▶</div>
           <div class="field">
-            <label for="to_game">Jogo de destino</label>
+            <label>TO</label>
             <select id="to_game">
               {% for game in games %}
               <option value="{{ game.id }}">{{ game.name }}</option>
@@ -41,59 +71,73 @@
       </div>
 
       <!-- SENSIBILIDADE -->
-      <div class="section">
-        <h2>Sensibilidade</h2>
+      <div class="section-block">
+        <p class="section-label">// SENSITIVITY</p>
         <div class="field">
-          <label for="sensitivity">Sensibilidade atual</label>
-          <input type="number" id="sensitivity" placeholder="ex: 1.8" step="0.01" min="0" />
+          <label>CURRENT SENSITIVITY</label>
+          <input type="number" id="sensitivity" placeholder="e.g. 1.800" step="0.01" min="0"/>
         </div>
       </div>
 
-      <!-- DPI (opcional) -->
-      <div class="section">
-        <h2>DPI <span class="optional">(opcional)</span></h2>
+      <!-- DPI -->
+      <div class="section-block">
+        <p class="section-label">// DPI <span class="optional">(OPTIONAL)</span></p>
         <div class="row">
           <div class="field">
-            <label for="from_dpi">DPI atual</label>
-            <input type="number" id="from_dpi" placeholder="ex: 800" min="0" />
+            <label>CURRENT DPI</label>
+            <input type="number" id="from_dpi" placeholder="e.g. 800" min="0"/>
           </div>
-          <div class="arrow">→</div>
+          <div class="arrow">▶</div>
           <div class="field">
-            <label for="to_dpi">DPI novo</label>
-            <input type="number" id="to_dpi" placeholder="ex: 1600" min="0" />
+            <label>NEW DPI</label>
+            <input type="number" id="to_dpi" placeholder="e.g. 1600" min="0"/>
           </div>
         </div>
       </div>
 
-      <!-- PESO (opcional) -->
-      <div class="section">
-        <h2>Peso do mouse <span class="optional">(opcional, em gramas)</span></h2>
+      <!-- PESO -->
+      <div class="section-block">
+        <p class="section-label">// MOUSE WEIGHT <span class="optional">(OPTIONAL — GRAMS)</span></p>
         <div class="row">
           <div class="field">
-            <label for="from_weight">Peso atual</label>
-            <input type="number" id="from_weight" placeholder="ex: 95" min="0" />
+            <label>CURRENT WEIGHT</label>
+            <input type="number" id="from_weight" placeholder="e.g. 95" min="0"/>
           </div>
-          <div class="arrow">→</div>
+          <div class="arrow">▶</div>
           <div class="field">
-            <label for="to_weight">Peso novo</label>
-            <input type="number" id="to_weight" placeholder="ex: 68" min="0" />
+            <label>NEW WEIGHT</label>
+            <input type="number" id="to_weight" placeholder="e.g. 68" min="0"/>
           </div>
         </div>
       </div>
 
-      <button id="btn-convert">Calcular sensibilidade</button>
+      <button id="btn-convert">[ CALCULATE ]</button>
 
-    </div>
+      <!-- ERRO -->
+      <div class="error-box" id="error" style="display:none;"></div>
+    </main>
 
-    <!-- RESULTADO -->
-    <div class="result" id="result" style="display:none;">
-      <h2>Resultado</h2>
-      <div class="result-value" id="result-value"></div>
-      <div class="result-details" id="result-details"></div>
-    </div>
+    <!-- PAINEL DIREITO -->
+    <aside class="panel">
+      <div class="panel-header">
+        <p class="section-label">// OUTPUT</p>
+      </div>
 
-    <!-- ERRO -->
-    <div class="error" id="error" style="display:none;"></div>
+      <div class="result-block" id="result-block">
+        <p class="result-label">CONVERTED SENSITIVITY</p>
+        <div class="result-value" id="result-value">—</div>
+        <div class="result-details" id="result-details"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-block">
+        <p class="section-label">// HOW IT WORKS</p>
+        <p class="info-text">Each game has a yaw constant — degrees rotated per sensitivity unit. The universal formula:</p>
+        <p class="formula">sens_new = sens × (yaw_src / yaw_dst)</p>
+        <p class="info-text">DPI and mouse weight adjustments are applied on top.</p>
+      </div>
+    </aside>
 
   </div>
 
