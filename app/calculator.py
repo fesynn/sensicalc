@@ -32,7 +32,7 @@ def convert_sensitivity(
     # Mouse mais pesado = mais resistência = precisa de mais sens
     # Mouse mais leve = menos resistência = precisa de menos sens
     if from_weight and to_weight and from_weight != to_weight:
-        converted = converted * (from_weight / to_weight)
+        converted = converted * (to_weight / from_weight)
 
     return {
         "from_game": from_game["name"],
